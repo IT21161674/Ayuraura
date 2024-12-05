@@ -38,12 +38,13 @@ The app’s AI capabilities enhance the accuracy of stress assessments, thereby 
 
 ## Group Members
 
-| **Name**                         | **Student ID**    | **Role**                |
-|-----------------------------------|-------------------|-------------------------|
-| Weerasinghe W. P. D. J. N.       | IT21162664        | Group Leader            |
-| Gunasekera H. D. P. M.           | IT21161674        | Developer               |
-| Jayathunghe K. A. D. T. R.       | IT21162732        | Research and Analysis   |
-| Wickramasinghe B. G. W. M. C. R. | IT21279652        | UI/UX Designer          |
+| **Name**                         | **Student ID**    |
+|-----------------------------------|-------------------|
+| Weerasinghe W. P. D. J. N. (Group Leader) | IT21162664        |
+| Gunasekera H. D. P. M.           | IT21161674        |
+| Jayathunghe K. A. D. T. R.       | IT21162732        |
+| Wickramasinghe B. G. W. M. C. R. | IT21279652        |
+
 
 ---
 

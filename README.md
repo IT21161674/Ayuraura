@@ -14,6 +14,13 @@ The app’s AI capabilities enhance the accuracy of stress assessments, thereby 
 
 ---
 
+## Overview Diagram
+
+![Overview Diagram](https://github.com/user-attachments/assets/7674efce-d3ef-4171-8112-7dbefb73962d)
+
+
+---
+
 ## Key Features
 
 - **Personalized Stress Relief Recommendations**: Based on biometric data and stress scale assessment.
@@ -28,11 +35,51 @@ The app’s AI capabilities enhance the accuracy of stress assessments, thereby 
 
 ## How It Works
 
-1. AI analyzes biometric data from eyes and breathing patterns.
-2. Integrates results with The Perceived Stress Scale for accuracy.
-3. Recommends tailored activities and therapies for stress relief.
-4. Tracks progress with visual updates and feedback.
-5. Predicts future stress patterns for proactive management.
+1. Mobile App Development
+Tools:
+	•	Android Studio
+Framework: 
+       • Flutter
+Language :
+	•	Floutter
+Libraries/SDKs:
+	•	CameraX: For camera access and processing.
+	•	ML Kit: For on-device AI processing (optional).
+	•	ngrok: For API Design
+
+2. Backend Development
+Language/Frameworks:
+	•	Python: Backend logic and AI model integration.
+Frameworks:
+	•	Flask 
+Libraries for Backend:
+	•	ngrok: For REST API design.
+	•	Gunicorn: For deploying Python applications.
+	•	PyJWT: For authentication (if needed).
+Database Options:
+	- Firebase Firestore
+
+3. AI and Machine Learning
+	•	Libraries:
+	•	TensorFlow or PyTorch: For creating stress prediction models.
+	•	Scikit-learn: For classical ML models like Random Forest or SVM.
+	•	OpenCV: For real-time eye tracking and image processing.
+	•	Additional Tools:
+	•	NumPy: For numerical computations.
+	•	Pandas: For data manipulation and analysis.
+	•	Visualization:
+	•	Matplotlib or Plotly: For visualizing trends and stress predictions.
+
+4. Data Handling and Security
+	•	Dependencies:
+	•	Cryptography: For encrypting sensitive data.
+	•	Bcrypt: For securely hashing passwords.
+	•	For API Communication:
+	•	Requests: For handling API requests.
+
+5. User Interface (UI/UX)
+	•	Android Libraries:
+	•	Material Components: For modern
 
 ---
 

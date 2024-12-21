@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery Time Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: white;
+        }
+
+        small {
+            display: block;
+            color: #666;
+            margin-top: 5px;
+            font-size: 0.85em;
+        }
+
+        option {
+            padding: 8px;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Recovery Time Prediction</h1>
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" min="0" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" required>
+                    <option value="" disabled selected>Select your gender</option>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                    <option value="2">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="initialStressLevel">Initial Stress Level (1-5):</label>
+                <select id="initialStressLevel" required>
+                    <option value="" disabled selected>Select initial stress level</option>
+                    <option value="1">1 - Low stress</option>
+                    <option value="2">2 - Moderate stress</option>
+                    <option value="3">3 - High stress</option>
+                    <option value="4">4 - Severe stress</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="days">Day:</label>
+                <input type="number" id="days" min="0" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="dailyStressLevel">Daily Stress Level (1-5):</label>
+                <select id="dailyStressLevel" required>
+                    <option value="" disabled selected>Select your stress level</option>
+                    <option value="1">1 - You are extremely anxious and find it difficult to cope with daily tasks</option>
+                    <option value="2">2 - You feel quite overwhelmed and find it hard to relax</option>
+                    <option value="3">3 - You are aware of some stressors and feel somewhat tense</option>
+                    <option value="4">4 - You have a few minor concerns but feel generally okay</option>
+                    <option value="5">5 - You feel very relaxed and have no significant worries</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="dailyEnergyLevel">Daily Energy Level (1-5):</label>
+                <select id="dailyEnergyLevel" required>
+                    <option value="" disabled selected>Select your energy level</option>
+                    <option value="1">1 - Extremely low energy, difficult to perform basic tasks</option>
+                    <option value="2">2 - Low energy, requiring extra effort for daily activities</option>
+                    <option value="3">3 - Moderate energy, can manage regular tasks</option>
+                    <option value="4">4 - Good energy level, feeling productive</option>
+                    <option value="5">5 - High energy, feeling very active and vibrant</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="dailyHappinessLevel">Daily Happiness Level (1-5):</label>
+                <select id="dailyHappinessLevel" required>
+                    <option value="" disabled selected>Select your happiness level</option>
+                    <option value="1">1 - Feeling very unhappy or depressed</option>
+                    <option value="2">2 - Feeling somewhat down</option>
+                    <option value="3">3 - Neutral mood</option>
+                    <option value="4">4 - Generally happy and content</option>
+                    <option value="5">5 - Very happy and joyful</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="dailyCalmnessLevel">Daily Calmness Level (1-5):</label>
+                <select id="dailyCalmnessLevel" required>
+                    <option value="" disabled selected>Select your calmness level</option>
+                    <option value="1">1 - Feeling very agitated or restless</option>
+                    <option value="2">2 - Feeling somewhat unsettled</option>
+                    <option value="3">3 - Moderately calm</option>
+                    <option value="4">4 - Feeling peaceful</option>
+                    <option value="5">5 - Completely serene and tranquil</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="mandalaCompletion">Mandala Completion Rate (0-1):</label>
+                <input type="number" id="mandalaCompletion" min="0" max="1" step="0.01" required>
+                <small>Enter a decimal between 0 and 1 (e.g., 0.75 for 75% completion)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="musicCompletion">Music Completion Rate (0-1):</label>
+                <input type="number" id="musicCompletion" min="0" max="1" step="0.01" required>
+                <small>Enter a decimal between 0 and 1 (e.g., 0.75 for 75% completion)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="overallActivityCompletionRate">Overall Activity Completion Rate (0-1):</label>
+                <input type="number" id="overallActivityCompletionRate" min="0" max="1" step="0.01" readonly>
+                <small>Average of Mandala and Music completion rates (automatically calculated)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="durationOfParticipation">Duration of Participation (mins):</label>
+                <input type="number" id="durationOfParticipation" min="1" required>
+                <small>Enter the number of minutes you've been participating</small>
+            </div>
+
+            <div class="form-group">
+                <label for="baseRecoveryDays">Base Recovery Days:</label>
+                <input type="number" id="baseRecoveryDays" min="0" readonly>
+                <small>Enter the baseline number of days needed for recovery</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="activityMultiplier">Activity Multiplier (0-1):</label>
+                <input type="number" id="activityMultiplier" min="-1" max="1" step="0.01" readonly>
+                <small>This value is automatically calculated based on activity completion rate</small>
+            </div>
+
+            <button type="submit">Predict Recovery Time</button>
+        </form>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Function to calculate average completion rate
+        function updateOverallCompletionRate() {
+            const mandalaCompletion = parseFloat(document.getElementById('mandalaCompletion').value) || 0;
+            const musicCompletion = parseFloat(document.getElementById('musicCompletion').value) || 0;
+            
+            // Calculate average
+            const overallRate = (mandalaCompletion + musicCompletion) / 2;
+            
+            // Set the overall completion rate
+            document.getElementById('overallActivityCompletionRate').value = overallRate.toFixed(2);
+            
+            // Trigger the activity multiplier calculation
+            updateActivityMultiplier(overallRate);
+        }
+
+        // Function to update activity multiplier
+        function updateActivityMultiplier(completionRate) {
+            let multiplier;
+            if (completionRate > 0.90) {
+                multiplier = 0.8;
+            } else if (completionRate >= 0.80) {
+                multiplier = 0.4;
+            } else if (completionRate >= 0.60) {
+                multiplier = 0.2;
+            } else if (completionRate >= 0.30) {
+                multiplier = 0.1;
+            } else if (completionRate < 0.30) {
+                multiplier = -0.2;
+            } else {
+                multiplier = 0;
+            }
+            document.getElementById('activityMultiplier').value = multiplier;
+        }
+
+        // Add event listeners to both completion rate inputs
+        document.getElementById('mandalaCompletion').addEventListener('input', updateOverallCompletionRate);
+        document.getElementById('musicCompletion').addEventListener('input', updateOverallCompletionRate);
+
+        // Daily stress level handler
+        document.getElementById('dailyStressLevel').addEventListener('change', function() {
+            const dailyStressLevel = parseInt(this.value);
+            const baseRecoveryDays = dailyStressLevel >= 4 ? 5 : 10;
+            document.getElementById('baseRecoveryDays').value = baseRecoveryDays;
+        });
+
+        // Make the Overall Activity Completion Rate readonly
+        document.getElementById('overallActivityCompletionRate').readOnly = true;
+
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const data = {
+                Age: parseInt(document.getElementById('age').value),
+                Gender: parseInt(document.getElementById('gender').value),
+                InitialStressLevel: parseInt(document.getElementById('initialStressLevel').value),
+                Days: parseInt(document.getElementById('days').value),
+                DailyStressLevel: parseFloat(document.getElementById('dailyStressLevel').value),
+                DailyEnergyLevel: parseFloat(document.getElementById('dailyEnergyLevel').value),
+                DailyHappinessLevel: parseFloat(document.getElementById('dailyHappinessLevel').value),
+                DailyCalmnessLevel: parseFloat(document.getElementById('dailyCalmnessLevel').value),
+                MandalaCompletion: parseFloat(document.getElementById('mandalaCompletion').value),
+                MusicCompletion: parseFloat(document.getElementById('musicCompletion').value),
+                OverallActivityCompletionRate: parseFloat(document.getElementById('overallActivityCompletionRate').value),
+                DurationofParticipation: parseInt(document.getElementById('durationOfParticipation').value),
+                BaseRecoveryDays: parseInt(document.getElementById('baseRecoveryDays').value),
+                ActivityMultiplier: parseFloat(document.getElementById('activityMultiplier').value)
+            };
+
+            console.log("Data sent to server:", data);
+
+            try {
+                const response = await fetch('/predict_recovery_time', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('result');
+                resultDiv.style.display = 'block';
+
+                if (response.ok) {
+                    resultDiv.className = 'success';
+                    resultDiv.textContent = `Predicted Recovery Time: ${result.predicted_recovery_Days} days`;
+                } else {
+                    resultDiv.className = 'error';
+                    resultDiv.textContent = `Error: ${result.error}`;
+                }
+            } catch (error) {
+                const resultDiv = document.getElementById('result');
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'error';
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html> 

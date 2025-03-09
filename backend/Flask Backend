@@ -1,57 +1,78 @@
-# Import required libraries
+import os
+import cv2
+import numpy as np
+import tensorflow as tf
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import joblib
-import numpy as np
-
-# Load the trained model and scaler
-model_path = 'stress_probability_model.pkl' 
-scaler_path = 'scaler.pkl' 
-
-loaded_model = joblib.load(model_path)
-loaded_scaler = joblib.load(scaler_path)
+from pyngrok import ngrok, conf
+from werkzeug.utils import secure_filename
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)
 
-# Define prediction endpoint
-@app.route('/predict', methods=['POST'])
+# Set model path and other configurations
+MODEL_PATH = r"C:\Users\Ch1r4th\Desktop\Research Component\Colab Notebooks\models\stress_detection_model.h5"  # Update the path to the local model file
+IMG_SIZE = (224, 224)
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
+# Load the pre-trained model
+model = tf.keras.models.load_model(MODEL_PATH)
+
+def preprocess_video(video_path, img_size=IMG_SIZE, max_frames=100):
+    print(f"Processing video: {video_path}")
+    cap = cv2.VideoCapture(video_path)
+    frames = []
+    frame_count = 0
+    while frame_count < max_frames:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        frame = cv2.resize(frame, img_size)
+        frames.append(frame)
+        frame_count += 1
+    cap.release()
+    print(f"Extracted {len(frames)} frames from {video_path} (Limit: {max_frames})")
+    return np.array(frames)
+
+@app.route("/predict", methods=["POST"])
 def predict():
-    try:
-        # Parse JSON input
-        data = request.json
-        sample_input = np.array([[
-            data['avg_sleep_hours_per_night'],
-            data['avg_exercise_days_per_week'],
-            data['avg_work_or_study_hours_per_week'],
-            data['avg_screen_hours_per_day'],
-            data['social_interaction_quality_rating'],
-            data['diet_healthiness_rating'],
-            data['smoking_drinking_habits_rating'],
-            data['avg_recreational_hours_per_week']
-        ]])
+    if "video" not in request.files:
+        return jsonify({"error": "No video file provided"}), 400
 
-        # Scale input data
-        scaled_input = loaded_scaler.transform(sample_input)
+    # Save the uploaded video file
+    video_file = request.files["video"]
+    filename = secure_filename(video_file.filename)
+    video_path = os.path.join(UPLOAD_FOLDER, filename)
+    video_file.save(video_path)
 
-        # Make predictions
-        predicted_class = loaded_model.predict(scaled_input)[0]
-        predicted_probabilities = loaded_model.predict_proba(scaled_input)[0]
+    # Preprocess the video
+    video_frames = preprocess_video(video_path)
+    video_frames = video_frames / 255.0  # Normalize the frames
 
-        # Prepare response
-        response = {
-            "predicted_class": "Stress" if predicted_class == 1 else "No Stress",
-            "probabilities": {
-                "No Stress": f"{predicted_probabilities[0] * 100:.2f}%",
-                "Stress": f"{predicted_probabilities[1] * 100:.2f}%"
-            }
-        }
-        return jsonify(response)
-    except Exception as e:
-        return jsonify({"error": str(e)})
+    # Predict probabilities for each frame
+    predictions = model.predict(video_frames)  # Shape: (num_frames, num_classes)
 
-# Start Flask app
+    # Calculate average probabilities across all frames
+    avg_probabilities = np.mean(predictions, axis=0)  # Shape: (num_classes,)
+
+    # Get the predicted class and its percentage probability
+    predicted_class = np.argmax(avg_probabilities)
+    predicted_percentage = avg_probabilities[predicted_class] * 100
+
+    # Clean up uploaded file
+    os.remove(video_path)
+
+    # Return the prediction as JSON
+    response = {
+        "predicted_class": int(predicted_class) + 1,  # Stress level is 1-indexed
+        "predicted_percentage": round(predicted_percentage, 2),
+        "probabilities": avg_probabilities.tolist()
+    }
+    return jsonify(response)
+
+# Run Flask app locally
 if __name__ == '__main__':
-    # Run Flask app locally
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(port=5000)

@@ -13,7 +13,7 @@ class MandalaPage extends StatefulWidget {
   @override
   State<MandalaPage> createState() => _MandalaPageState();
 }
-
+//Design pattern Types
 class _MandalaPageState extends State<MandalaPage> {
   @override
   Widget build(BuildContext context) {

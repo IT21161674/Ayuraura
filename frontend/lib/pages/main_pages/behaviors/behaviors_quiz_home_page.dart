@@ -28,7 +28,7 @@ class BehaviorsQuizHomePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              'Ready to check in on how you feel today?',
+              'You don’t have stress?',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20, color: Colors.black),
             ),
@@ -48,7 +48,7 @@ class BehaviorsQuizHomePage extends StatelessWidget {
                 ],
               ),
               child: Text(
-                'You’ve logged your behaviors for 5 days in a row! Keep it up 🎉',
+                'Check the whether you have a probalility to be stressed in the future.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18, color: AppColors.primary),
               ),

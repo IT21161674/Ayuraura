@@ -119,42 +119,65 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         opacity: _animation,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: GridView.count(
-            crossAxisCount: 2,
-            crossAxisSpacing: 20.0,
-            mainAxisSpacing: 20.0,
+          child: Column(
             children: [
-              _buildFeatureCard(
-                context,
-                'Mandala Arts\n& Music',
-                'assets/home/mandala.png',
-                Icons.palette,
-                MandalaMusicHomeScreen(),
-                [Color(0xCC6A1B9A), Color(0xCC4A148C)],
+              // First row - Evaluate Stress (full width)
+              AspectRatio(
+                aspectRatio: 2.1,  // Make it rectangular
+                child: _buildFeatureCard(
+                  context,
+                  'Evaluate\nStress',
+                  'assets/home/check_stress.png',
+                  Icons.remove_red_eye,
+                  EyeAnalysisHomeScreen(),
+                  [Color(0xFF00695C), Color(0xFF004D40)],
+                ),
               ),
-              _buildFeatureCard(
-                context,
-                'Recovery\nPrediction',
-                'assets/home/mood_quiz.png',
-                Icons.quiz,
-                QuizHomeScreen(),
-                [Color(0xFF1565C0), Color(0xFF0D47A1)],
+              SizedBox(height: 20.0),  // Spacing between rows
+              // Second row - Mandala Arts (full width)
+              AspectRatio(
+                aspectRatio: 2.1,  // Make it rectangular
+                child: _buildFeatureCard(
+                  context,
+                  'Mandala Arts\n& Music',
+                  'assets/home/mandala.png',
+                  Icons.palette,
+                  MandalaMusicHomeScreen(),
+                  [Color(0xCC6A1B9A), Color(0xCC4A148C)],
+                ),
               ),
-              _buildFeatureCard(
-                context,
-                'Evaluate\nStress',
-                'assets/home/check_stress.png',
-                Icons.remove_red_eye,
-                EyeAnalysisHomeScreen(),
-                [Color(0xFF00695C), Color(0xFF004D40)],
-              ),
-              _buildFeatureCard(
-                context,
-                'Will I\nBe Stressed?',
-                'assets/home/behavior_quiz.png',
-                Icons.psychology,
-                BehaviorsQuizHomePage(),
-                [Color(0xFFE65100), Color(0xFFEF6C00)],
+              SizedBox(height: 20.0),  // Spacing between rows
+              // Third row - Two smaller buttons
+              Row(
+                children: [
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1,  // Keep square for smaller buttons
+                      child: _buildFeatureCard(
+                        context,
+                        'Will I\nBe Stressed?',
+                        'assets/home/behavior_quiz.png',
+                        Icons.psychology,
+                        BehaviorsQuizHomePage(),
+                        [Color(0xFFE65100), Color(0xFFEF6C00)],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 20.0),  // Spacing between buttons
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1,  // Keep square for smaller buttons
+                      child: _buildFeatureCard(
+                        context,
+                        'Recovery\nPrediction',
+                        'assets/home/mood_quiz.png',
+                        Icons.quiz,
+                        QuizHomeScreen(),
+                        [Color(0xFF1565C0), Color(0xFF0D47A1)],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

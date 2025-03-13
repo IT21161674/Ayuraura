@@ -117,70 +117,104 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ),
       body: FadeTransition(
         opacity: _animation,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              // First row - Evaluate Stress (full width)
-              AspectRatio(
-                aspectRatio: 2.1,  // Make it rectangular
-                child: _buildFeatureCard(
-                  context,
-                  'Evaluate\nStress',
-                  'assets/home/check_stress.png',
-                  Icons.remove_red_eye,
-                  EyeAnalysisHomeScreen(),
-                  [Color(0xFF00695C), Color(0xFF004D40)],
-                ),
-              ),
-              SizedBox(height: 20.0),  // Spacing between rows
-              // Second row - Mandala Arts (full width)
-              AspectRatio(
-                aspectRatio: 2.1,  // Make it rectangular
-                child: _buildFeatureCard(
-                  context,
-                  'Mandala Arts\n& Music',
-                  'assets/home/mandala.png',
-                  Icons.palette,
-                  MandalaMusicHomeScreen(),
-                  [Color(0xCC6A1B9A), Color(0xCC4A148C)],
-                ),
-              ),
-              SizedBox(height: 20.0),  // Spacing between rows
-              // Third row - Two smaller buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: AspectRatio(
-                      aspectRatio: 1,  // Keep square for smaller buttons
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    // First row - Evaluate Stress (full width)
+                    AspectRatio(
+                      aspectRatio: 2.1,  // Make it rectangular
                       child: _buildFeatureCard(
                         context,
-                        'Will I\nBe Stressed?',
-                        'assets/home/behavior_quiz.png',
-                        Icons.psychology,
-                        BehaviorsQuizHomePage(),
-                        [Color(0xFFE65100), Color(0xFFEF6C00)],
+                        'Evaluate\nStress',
+                        'assets/home/check_stress.png',
+                        Icons.remove_red_eye,
+                        EyeAnalysisHomeScreen(),
+                        [Color(0xFF00695C), Color(0xFF004D40)],
                       ),
                     ),
-                  ),
-                  SizedBox(width: 20.0),  // Spacing between buttons
-                  Expanded(
-                    child: AspectRatio(
-                      aspectRatio: 1,  // Keep square for smaller buttons
+                    SizedBox(height: 20.0),  // Spacing between rows
+                    // Second row - Mandala Arts (full width)
+                    AspectRatio(
+                      aspectRatio: 2.1,  // Make it rectangular
                       child: _buildFeatureCard(
                         context,
-                        'Recovery\nPrediction',
-                        'assets/home/mood_quiz.png',
-                        Icons.quiz,
-                        QuizHomeScreen(),
-                        [Color(0xFF1565C0), Color(0xFF0D47A1)],
+                        'Mandala Arts\n& Music',
+                        'assets/home/mandala.png',
+                        Icons.palette,
+                        MandalaMusicHomeScreen(),
+                        [Color(0xCC6A1B9A), Color(0xCC4A148C)],
                       ),
                     ),
+                    SizedBox(height: 20.0),  // Spacing between rows
+                    // Third row - Two smaller buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AspectRatio(
+                            aspectRatio: 1,  // Keep square for smaller buttons
+                            child: _buildFeatureCard(
+                              context,
+                              'Will I\nBe Stressed?',
+                              'assets/home/behavior_quiz.png',
+                              Icons.psychology,
+                              BehaviorsQuizHomePage(),
+                              [Color(0xFFE65100), Color(0xFFEF6C00)],
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20.0),  // Spacing between buttons
+                        Expanded(
+                          child: AspectRatio(
+                            aspectRatio: 1,  // Keep square for smaller buttons
+                            child: _buildFeatureCard(
+                              context,
+                              'Recovery\nPrediction',
+                              'assets/home/mood_quiz.png',
+                              Icons.quiz,
+                              QuizHomeScreen(),
+                              [Color(0xFF1565C0), Color(0xFF0D47A1)],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Footer
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF2E7D32), Color(0xFF1B5E20)],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 4,
+                    offset: Offset(0, -2),
                   ),
                 ],
               ),
-            ],
-          ),
+              child: Text(
+                'Ayuraura Research Project 24-25J-180',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12.0,
+                  color: Colors.white.withOpacity(0.8),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

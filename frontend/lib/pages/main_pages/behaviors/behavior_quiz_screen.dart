@@ -44,7 +44,7 @@ class _BehaviorsQuizScreenState extends State<BehaviorsQuizScreen> {
               value: _answers[_currentQuestionIndex] ?? question['range'][0].toDouble(),
               min: question['range'][0].toDouble(),
               max: question['range'][1].toDouble(),
-              divisions: question['range'][1] - question['range'][0],
+              divisions: (question['range'][1] - question['range'][0]) * 2,
               label: _answers[_currentQuestionIndex]?.toStringAsFixed(1),
               onChanged: (value) {
                 setState(() {

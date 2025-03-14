@@ -64,7 +64,9 @@ class _BehaviorsQuizScreenState extends State<BehaviorsQuizScreen> {
                       });
                     },
                     child: Text("Previous"),
-                  ),
+                  )
+                else
+                  SizedBox.shrink(),
                 ElevatedButton(
                   onPressed: () {
                     if (_currentQuestionIndex < _questions.length - 1) {

@@ -1,4 +1,5 @@
 import 'package:stress_management/pages/image_list_page/image_grid_list_page.dart';
+import 'package:stress_management/pages/main_pages/behaviors/chat_screen.dart';
 import 'package:stress_management/pages/main_pages/mandala_page/mandala_music_home_screen.dart';
 import 'package:stress_management/pages/navigator_page/mandala_navigator_page.dart';
 import 'package:stress_management/providers/main_provider.dart';
@@ -220,11 +221,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
             // Chatbot Button
             Positioned(
-              right: 20.0,  // Changed from left to right
-              bottom: 40.0,  // Position above the footer
+              right: 20.0,
+              bottom: 40.0,
               child: GestureDetector(
                 onTap: () {
-                  // Will be implemented later
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatScreen()),
+                  );
                 },
                 child: Container(
                   width: 56.0,
@@ -234,7 +238,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Color(0xFF424242), Color(0xFF212121)],  // Changed to black shades
+                      colors: [Color(0xFF424242), Color(0xFF212121)],
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -245,7 +249,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     ],
                   ),
                   child: Icon(
-                    Icons.smart_toy_outlined,  // Changed to robot icon
+                    Icons.smart_toy_outlined,
                     color: Colors.white,
                     size: 28.0,
                   ),

@@ -38,20 +38,83 @@ class _BehaviorsQuizScreenState extends State<BehaviorsQuizScreen> {
             SizedBox(height: 20),
             Image.asset(question['image'], height: 200, fit: BoxFit.contain),
             SizedBox(height: 20),
-            Text("Select a value:", textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-            SizedBox(height: 10),
-            Slider(
-              value: _answers[_currentQuestionIndex] ?? question['range'][0].toDouble(),
-              min: question['range'][0].toDouble(),
-              max: question['range'][1].toDouble(),
-              divisions: (question['range'][1] - question['range'][0]) * 2,
-              label: _answers[_currentQuestionIndex]?.toStringAsFixed(1),
-              onChanged: (value) {
-                setState(() {
-                  _answers[_currentQuestionIndex] = value;
-                });
-              },
-            ),
+            if (_currentQuestionIndex == 1) ...[
+              Text("Select days:", textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              SizedBox(height: 20),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(4, (index) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _answers[_currentQuestionIndex] = (index + 1).toDouble();
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(20),
+                          primary: _answers[_currentQuestionIndex] == (index + 1).toDouble() 
+                              ? Colors.blue[300] 
+                              : Colors.blue[900],
+                        ),
+                        child: Text(
+                          '${index + 1}',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(3, (index) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _answers[_currentQuestionIndex] = (index + 5).toDouble();
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(20),
+                          primary: _answers[_currentQuestionIndex] == (index + 5).toDouble() 
+                              ? Colors.blue[300] 
+                              : Colors.blue[900],
+                        ),
+                        child: Text(
+                          '${index + 5}',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )),
+                  ),
+                ],
+              ),
+            ] else ...[
+              Text("Select a value:", textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              SizedBox(height: 10),
+              Slider(
+                value: _answers[_currentQuestionIndex] ?? question['range'][0].toDouble(),
+                min: question['range'][0].toDouble(),
+                max: question['range'][1].toDouble(),
+                divisions: (question['range'][1] - question['range'][0]) * 2,
+                label: _answers[_currentQuestionIndex]?.toStringAsFixed(1),
+                onChanged: (value) {
+                  setState(() {
+                    _answers[_currentQuestionIndex] = value;
+                  });
+                },
+              ),
+            ],
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

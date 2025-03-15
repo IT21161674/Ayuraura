@@ -109,19 +109,42 @@ class _BehaviorsQuizScreenState extends State<BehaviorsQuizScreen> {
             ] else ...[
               Text("Select a value:", textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
               SizedBox(height: 10),
-              Slider(
-                value: _answers[_currentQuestionIndex] ?? question['range'][0].toDouble(),
-                min: question['range'][0].toDouble(),
-                max: question['range'][1].toDouble(),
-                divisions: _currentQuestionIndex == 0 
-                    ? (question['range'][1] - question['range'][0]) * 2  // Half units for sleep
-                    : question['range'][1] - question['range'][0],     // Whole units for others
-                label: _answers[_currentQuestionIndex]?.toStringAsFixed(1),
-                onChanged: (value) {
-                  setState(() {
-                    _answers[_currentQuestionIndex] = value;
-                  });
-                },
+              if (_answers[_currentQuestionIndex] != null)
+                Text(
+                  _answers[_currentQuestionIndex]!.toStringAsFixed(1),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue[900]),
+                ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  SizedBox(width: 8),
+                  Text(
+                    question['range'][0].toString(),
+                    style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                  ),
+                  Expanded(
+                    child: Slider(
+                      value: _answers[_currentQuestionIndex] ?? question['range'][0].toDouble(),
+                      min: question['range'][0].toDouble(),
+                      max: question['range'][1].toDouble(),
+                      divisions: _currentQuestionIndex == 0 
+                          ? (question['range'][1] - question['range'][0]) * 2  // Half units for sleep
+                          : question['range'][1] - question['range'][0],     // Whole units for others
+                      label: _answers[_currentQuestionIndex]?.toStringAsFixed(1),
+                      onChanged: (value) {
+                        setState(() {
+                          _answers[_currentQuestionIndex] = value;
+                        });
+                      },
+                    ),
+                  ),
+                  Text(
+                    question['range'][1].toString(),
+                    style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                  ),
+                  SizedBox(width: 8),
+                ],
               ),
             ],
             SizedBox(height: 20),

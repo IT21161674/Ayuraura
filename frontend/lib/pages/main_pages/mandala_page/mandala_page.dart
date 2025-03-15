@@ -5,8 +5,6 @@ import '../../../providers/main_provider.dart';
 import '../../../widgets/image_menu_item/image_menu_item.dart';
 import '../../image_list_page/image_grid_list_page.dart';
 
-
-
 class MandalaPage extends StatefulWidget {
   const MandalaPage({Key? key}) : super(key: key);
 

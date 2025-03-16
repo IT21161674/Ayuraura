@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../auth/profile_page.dart';
+import '../../auth/profile_screen.dart';
 import '../behaviors/behaviors_quiz_home_page.dart';
 import '../eye_analysis/eye_analysis_home_screen.dart';
 import '../mandala_page/mandala_page.dart';
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   GestureDetector(
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()),
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
                     ),
                     child: Container(
                       padding: EdgeInsets.all(8),

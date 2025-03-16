@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../auth/profile_page.dart';
+import '../../auth/profile_screen.dart';
 import '../behaviors/behaviors_quiz_home_page.dart';
 import '../eye_analysis/eye_analysis_home_screen.dart';
 import '../mandala_page/mandala_page.dart';
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   GestureDetector(
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()),
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
                     ),
                     child: Container(
                       padding: EdgeInsets.all(8),
@@ -231,39 +232,27 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   );
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  width: 56.0,
+                  height: 56.0,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30.0),
-                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF424242), Color(0xFF212121)],
+                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withOpacity(0.2),
                         blurRadius: 8,
                         offset: Offset(0, 4),
                       ),
                     ],
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        'assets/home/panda.png',
-                        width: 40.0,
-                        height: 40.0,
-                        fit: BoxFit.contain,
-                      ),
-                      SizedBox(width: 8.0),
-                      Text(
-                        'Chat with\nMochi',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          height: 1.2,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF424242),
-                        ),
-                      ),
-                    ],
+                  child: Icon(
+                    Icons.smart_toy_outlined,
+                    color: Colors.white,
+                    size: 28.0,
                   ),
                 ),
               ),

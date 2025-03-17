@@ -278,26 +278,28 @@ class EyeAnalysisHomeScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          RichText(
-            text: TextSpan(
+          Text(
+            'Face the Camera – Keep your face centered and eyes visible.\n'
+                'Stay Still – Hold your position for 10 seconds while we analyze.\n'
+                'Good Lighting – Sit in a well-lit area, avoid shadows.\n'
+                'Relax & Blink Naturally – No need to force blinks!\n'
+                'Quiet Space – Minimize distractions for accurate results.',
+            style: TextStyle(
+              fontSize: 16,
+              color: const Color(0xFF4B5563),
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Center(
+            child: Text(
+              '👉 Tap Start Eye Analysis to begin!',
               style: TextStyle(
                 fontSize: 16,
                 color: const Color(0xFF4B5563),
                 height: 1.5,
+                fontWeight: FontWeight.bold,
               ),
-              children: [
-                TextSpan(
-                  text: 'Face the Camera – Keep your face centered and eyes visible.\n'
-                      'Stay Still – Hold your position for 10 seconds while we analyze.\n'
-                      'Good Lighting – Sit in a well-lit area, avoid shadows.\n'
-                      'Relax & Blink Naturally – No need to force blinks!\n'
-                      'Quiet Space – Minimize distractions for accurate results.\n',
-                ),
-                TextSpan(
-                  text: '👉 Tap Start Eye Analysis to begin!',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
             ),
           ),
         ],

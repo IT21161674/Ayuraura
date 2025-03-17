@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:path/path.dart' hide Context;
+import 'package:path/path.dart';
 import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:stress_management/constants/constants.dart';
+
 import '../../../constants/colors.dart';
-import '../mandala_page/mandala_page.dart';
 import 'eye_stress_level_screen.dart';
 
 class StressScaleQuiz extends StatefulWidget {
@@ -40,6 +41,9 @@ class _StressScaleQuizState extends State<StressScaleQuiz> {
       ),
     );
   }
+
+
+
 
   List<int?> answers = List.filled(10, null);
   int _currentQuestionIndex = 0;
@@ -457,15 +461,24 @@ class _StressScaleQuizState extends State<StressScaleQuiz> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
                 Navigator.popUntil(context, (route) => route.isFirst);
               },
-              child: const Text('Return to Main Page'),
+              child: const Text(
+                'Return to Main Page',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.secondary,
                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -473,7 +486,11 @@ class _StressScaleQuizState extends State<StressScaleQuiz> {
               'Disclaimer: This self-assessment does not reflect any particular diagnosis or course of treatment. '
                   'It is meant as a tool to help assess your stress level. If you have concerns about your well-being, '
                   'please consult a professional.',
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                color: Colors.grey[600],
+                fontSize: 12,
+              ),
               textAlign: TextAlign.center,
             ),
           ],
@@ -484,92 +501,159 @@ class _StressScaleQuizState extends State<StressScaleQuiz> {
 
   List<Widget> _getRecommendations(String stressLevel) {
     Map<String, String> mandalaRecommendation = {};
+    Map<String, String> musicRecommendation = {};
 
     switch (stressLevel) {
       case 'Low Stress':
         mandalaRecommendation = {
           'level': 'Simple',
-          'description': 'Begin with Simple mandalas to maintain your peaceful state of mind and enhance mindfulness'
+          'description': 'For your low stress level, we recommend starting with Simple mandala patterns. These basic designs will help maintain your peaceful state of mind.'
+        };
+        musicRecommendation = {
+          'category': 'Nature Sounds with Soft Piano & Lo-Fi chill beats',
+          'description': 'Gentle nature sounds combined with soft piano or relaxing lo-fi beats can help maintain your calm state.'
         };
         break;
       case 'Moderate Stress':
         mandalaRecommendation = {
           'level': 'Medium',
-          'description': 'Progress to Medium difficulty mandalas to improve focus and achieve deeper relaxation'
+          'description': 'For moderate stress levels, try our Medium difficulty mandalas. These balanced patterns will help you focus and reduce stress.'
+        };
+        musicRecommendation = {
+          'category': 'Alpha Waves & Soft Instrumental',
+          'description': 'Alpha waves and soft instrumental can help balance your mood and reduce stress levels.'
         };
         break;
       case 'Severe Stress':
         mandalaRecommendation = {
           'level': 'Complex',
-          'description': 'Challenge yourself with Complex mandalas to fully engage your mind and release stress through detailed work'
+          'description': 'For severe stress, we recommend engaging with Complex mandala patterns. These intricate designs will help redirect your focus and provide a challenging creative outlet.'
+        };
+        musicRecommendation = {
+          'category': 'Ambient Meditation Music & Tibetan Bowls',
+          'description': 'Ambient meditation music and Tibetan singing bowls can help calm your mind and reduce severe stress symptoms.'
         };
         break;
       case 'Critical Stress':
         mandalaRecommendation = {
           'level': 'Complex',
-          'description': 'Immerse yourself in Complex mandalas for maximum concentration and therapeutic benefits'
+          'description': 'For critical stress levels, try our Complex mandala patterns. These detailed designs will help you immerse yourself in creative focus.'
+        };
+        musicRecommendation = {
+          'category': 'Gregorian Chants or OM Mantra Meditation & Deep Sleep Music',
+          'description': 'Gregorian chants and deep sleep music can help restore balance and reduce anxiety.'
         };
         break;
     }
 
     return [
+      // Mandala Recommendations
       Padding(
         padding: const EdgeInsets.only(top: 16),
-        child: Card(
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    Icon(Icons.palette, color: Colors.green[700], size: 24),
-                    SizedBox(width: 8),
-                    Text(
-                      'Recommended Mandala Practice',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green[700],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 12),
-                Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: Colors.green[50],
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.green[700]!),
-                      ),
-                      child: Text(
-                        mandalaRecommendation['level']!,
-                        style: TextStyle(
-                          color: Colors.green[700],
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
+                Icon(Icons.palette, color: Colors.green[700], size: 24),
+                SizedBox(width: 8),
                 Text(
-                  mandalaRecommendation['description']!,
+                  'Recommended Mandala Category',
                   style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green[700],
                   ),
                 ),
               ],
             ),
-          ),
+            SizedBox(height: 8),
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.green[50],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.green[100]!),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Category: ${mandalaRecommendation['level']}',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.green[700],
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    mandalaRecommendation['description']!,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[800],
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      
+      // Music Recommendations
+      Padding(
+        padding: const EdgeInsets.only(top: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.music_note, color: Colors.green[700], size: 24),
+                SizedBox(width: 8),
+                Text(
+                  'Recommended Music Category',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green[700],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.green[50],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.green[100]!),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Category: ${musicRecommendation['category']}',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.green[700],
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    musicRecommendation['description']!,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[800],
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     ];
@@ -639,12 +723,12 @@ class _StressScaleQuizState extends State<StressScaleQuiz> {
       appBar: AppBar(
         title: !_showResults
             ? Row(
-          children: [
-            Icon(Icons.psychology, size: 24),
-            SizedBox(width: 8),
-            Text('Stress Assessment'),
-          ],
-        )
+                children: [
+                  Icon(Icons.psychology, size: 24),
+                  SizedBox(width: 8),
+                  Text('Stress Assessment'),
+                ],
+              )
             : Text('Results'),
         backgroundColor: Colors.green[700],
         elevation: 0,
@@ -663,54 +747,58 @@ class _StressScaleQuizState extends State<StressScaleQuiz> {
             child: _showResults
                 ? _buildResults(context)
                 : Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(child: _buildQuestion(_currentQuestionIndex)),
-                SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (_currentQuestionIndex > 0)
-                      ElevatedButton.icon(
-                        onPressed: _previousQuestion,
-                        icon: Icon(Icons.arrow_back),
-                        label: Text('Previous'),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.green[700],
-                          side: BorderSide(color: Colors.green[700]!),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 12,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(child: _buildQuestion(_currentQuestionIndex)),
+                      SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (_currentQuestionIndex > 0)
+                            ElevatedButton.icon(
+                              onPressed: _previousQuestion,
+                              icon: const Icon(Icons.arrow_back),
+                              label: const Text('Previous'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.green[700],
+                                side: BorderSide(color: Colors.green[700]!),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 12,
+                                ),
+                              ),
+                            )
+                          else
+                            const SizedBox.shrink(),
+                          ElevatedButton.icon(
+                            onPressed: answers[_currentQuestionIndex] != null
+                                ? (_currentQuestionIndex < questions.length - 1
+                                    ? _nextQuestion
+                                    : _calculateScore)
+                                : null,
+                            icon: Icon(
+                              _currentQuestionIndex == questions.length - 1
+                                  ? Icons.check
+                                  : Icons.arrow_forward,
+                            ),
+                            label: Text(
+                              _currentQuestionIndex == questions.length - 1
+                                  ? 'Finish'
+                                  : 'Next',
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green[700],
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 12,
+                              ),
+                            ),
                           ),
-                        ),
-                      )
-                    else
-                      SizedBox.shrink(),
-                    ElevatedButton.icon(
-                      onPressed: answers[_currentQuestionIndex] != null
-                          ? (_currentQuestionIndex < questions.length - 1
-                          ? _nextQuestion
-                          : _calculateScore)
-                          : null,
-                      icon: Icon(_currentQuestionIndex == questions.length - 1
-                          ? Icons.check
-                          : Icons.arrow_forward),
-                      label: Text(_currentQuestionIndex == questions.length - 1
-                          ? 'Finish'
-                          : 'Next'),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green[700],
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
-                        ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  ),
           ),
         ),
       ),

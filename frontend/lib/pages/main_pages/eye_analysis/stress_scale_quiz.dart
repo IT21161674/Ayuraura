@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -363,8 +364,15 @@ class _StressScaleQuizState extends State<StressScaleQuiz> {
                             final response = await request.send();
                             final responseBody = await response.stream.bytesToString();
 
+
+                            print("-----------------" + responseBody);
+
+
                             if (response.statusCode == 200) {
+                              final Map<dynamic, dynamic> parsedData = jsonDecode(responseBody);
+                              setState(() => confidence = parsedData["predicted_percentage"]);
                               setState(() => _predictionDone = true);
+
                             } else {
                               _showError('Analysis failed: ${response.reasonPhrase}');
                             }
@@ -601,7 +609,7 @@ class _StressScaleQuizState extends State<StressScaleQuiz> {
           ],
         ),
       ),
-      
+
       // Music Recommendations
       Padding(
         padding: const EdgeInsets.only(top: 24),
@@ -723,12 +731,12 @@ class _StressScaleQuizState extends State<StressScaleQuiz> {
       appBar: AppBar(
         title: !_showResults
             ? Row(
-                children: [
-                  Icon(Icons.psychology, size: 24),
-                  SizedBox(width: 8),
-                  Text('Stress Assessment'),
-                ],
-              )
+          children: [
+            Icon(Icons.psychology, size: 24),
+            SizedBox(width: 8),
+            Text('Stress Assessment'),
+          ],
+        )
             : Text('Results'),
         backgroundColor: Colors.green[700],
         elevation: 0,
@@ -747,58 +755,58 @@ class _StressScaleQuizState extends State<StressScaleQuiz> {
             child: _showResults
                 ? _buildResults(context)
                 : Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(child: _buildQuestion(_currentQuestionIndex)),
-                      SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          if (_currentQuestionIndex > 0)
-                            ElevatedButton.icon(
-                              onPressed: _previousQuestion,
-                              icon: const Icon(Icons.arrow_back),
-                              label: const Text('Previous'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.green[700],
-                                side: BorderSide(color: Colors.green[700]!),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 12,
-                                ),
-                              ),
-                            )
-                          else
-                            const SizedBox.shrink(),
-                          ElevatedButton.icon(
-                            onPressed: answers[_currentQuestionIndex] != null
-                                ? (_currentQuestionIndex < questions.length - 1
-                                    ? _nextQuestion
-                                    : _calculateScore)
-                                : null,
-                            icon: Icon(
-                              _currentQuestionIndex == questions.length - 1
-                                  ? Icons.check
-                                  : Icons.arrow_forward,
-                            ),
-                            label: Text(
-                              _currentQuestionIndex == questions.length - 1
-                                  ? 'Finish'
-                                  : 'Next',
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green[700],
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 12,
-                              ),
-                            ),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: _buildQuestion(_currentQuestionIndex)),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (_currentQuestionIndex > 0)
+                      ElevatedButton.icon(
+                        onPressed: _previousQuestion,
+                        icon: const Icon(Icons.arrow_back),
+                        label: const Text('Previous'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.green[700],
+                          side: BorderSide(color: Colors.green[700]!),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
                           ),
-                        ],
+                        ),
+                      )
+                    else
+                      const SizedBox.shrink(),
+                    ElevatedButton.icon(
+                      onPressed: answers[_currentQuestionIndex] != null
+                          ? (_currentQuestionIndex < questions.length - 1
+                          ? _nextQuestion
+                          : _calculateScore)
+                          : null,
+                      icon: Icon(
+                        _currentQuestionIndex == questions.length - 1
+                            ? Icons.check
+                            : Icons.arrow_forward,
                       ),
-                    ],
-                  ),
+                      label: Text(
+                        _currentQuestionIndex == questions.length - 1
+                            ? 'Finish'
+                            : 'Next',
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green[700],
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

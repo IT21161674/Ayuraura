@@ -4,7 +4,8 @@ import '../../../constants/colors.dart';
 
 
 class EyeStressLevelScreen extends StatefulWidget {
-  const EyeStressLevelScreen({Key? key, required String responseData}) : super(key: key);
+  final String responseData;
+  const EyeStressLevelScreen({Key? key, required this.responseData}) : super(key: key);
 
   @override
   State<EyeStressLevelScreen> createState() => _EyeStressLevelScreenState();
@@ -13,6 +14,7 @@ class EyeStressLevelScreen extends StatefulWidget {
 class _EyeStressLevelScreenState extends State<EyeStressLevelScreen> {
   @override
   Widget build(BuildContext context) {
+    print("-------------responseData :"+ widget.responseData);
     double confidence = 33.01;
     int predictedLevel = 3;
 
